@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>员工信息表</title>
+  <link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="date.js"></script>
+  <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <link href="../css/datepicker-style.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+  <script type="text/javascript" src="../js/jquery-ui.js"></script>
+  <script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+  <script>
+    function fun() {
+      alert("已更新");
+    }
+  </script>
+</head>
+
+<body>
+  <p class="daohang">当前位置：
+<a href="#">首页</a><
+<a href="e-select.html">员工信息查询</a><
+<font>员工具体信息/员工：张三</font><br/>
+</p>
+  <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+    </tr>
+    <tr>
+      <th width="261" align="left" valign="top" rowspan="" scope="row">&nbsp;</th>
+      <th width="735" height="340" align="left" valign="middle" bordercolor="#333333" scope="row"><form name="register" method="post" action="e-select.html">
+        <label><br>
+          姓名
+          <input name="name" type="text" id="name" size="20"  th:value="${myoffices.data.name}" >
+        </label>
+        <p>性别
+          <label>
+            <select name="sex" id="sex">
+              <option selected="selected" th:selected="${myoffices.data.sex}eq'1'" value="男"></option>
+              <option th:selected="${myoffices.data.sex}eq'1'" value="男" >男</option>
+              <option th:selected="${myoffices.data.sex}eq'0'" value="女" >女</option>
+            </select>
+            <br>
+            <br>
+          </label>出生日期
+          <label></label>
+          <label>
+            <input name="birth" type="text" id="birth" size="16" th:value="${#dates.format(myoffices.data.birth,'yyyy-MM-dd')}" value="">
+          </label>
+        </p>
+        <p>身份证
+          <input name="idcard" type="text" id="idcard" th:value="${myoffices.data.idcard}">
+        </p>
+        <p>部门&nbsp;&nbsp;
+          <label>
+            <select name="departmentbame" id="departmentbame">
+              <option th:selected="${myoffices.data.departmentname}eq'广告部'"value="广告部" >广告部 </option>
+              <option th:selected="${myoffices.data.departmentname}eq'人事部'"value="人事部" >人事部</option>
+              <option th:selected="${myoffices.data.departmentname}eq'营销部'"value="营销部" >营销部</option>
+            </select>
+          </label>
+          岗位
+          <label>
+            <select name="stationname" id="stationname">
+              <option th:selected="${myoffices.data.stationname}eq'销售'"value="销售" >销售 </option>
+              <option th:selected="${myoffices.data.stationname}eq'工人'"value="工人" >工人</option>
+              <option th:selected="${myoffices.data.stationname}eq'生产'"value="生产" >生产</option>
+            </select>
+          </label>
+        </p>
+        <p>入职位日期
+          <label>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="employdate" type="text" id="employdate" size="16"th:value="${#dates.format(myoffices.data.employdate,'yyyy-MM-dd')}">
+          </label>
+        </p>
+        <p>参加工作日期&nbsp;&nbsp;&nbsp;
+          <label>
+            <input name="workdate" type="text" id="workdate" size="16" th:value="${#dates.format(myoffices.data.workdate,'yyyy-MM-dd')}">
+            &nbsp;</label>
+        </p>
+        <p>用工形式
+          <label>
+            <select name="yonggongxingshi" id="yonggongxingshi">
+              <option value="正式员工" >正式员工 </option>
+              <option value="临时员工" >临时员工</option>
+            </select>
+          </label>
+          人员来源
+          <label>
+            <select name="renyuanlaiyuan" id="renyuanlaiyuan">
+              <option value="校园招聘" >校园招聘 </option>
+              <option value="社会招聘" >社会招聘</option>
+              <option value="其他" >其他 </option>
+            </select>
+          </label>
+        </p>
+        <p>是否需要适用期<input type="radio" name="shiyongqi"  value="1"checked="checked">是</input><input type="radio" name="shiyongqi"  value="0">否</input></p>
+        <p>政治面貌
+          <label>
+            <select name="zhengzhi" id="zhengzhi">
+              <option value="党员" >党员 </option>
+              <option value="预备党员" >预备党员</option>
+              <option value="团员" >团员 </option>
+              <option value="其他" >其他 </option>
+            </select>
+          </label>
+          民族
+          <label>
+            <select name="minzu" id="minzu">
+              <option value="汉" >汉 </option>
+              <option value="满" >满</option>
+              <option value="回" >回 </option>
+              <option value="其他" >其他 </option>
+            </select>
+          </label>
+        </p>
+        <p>联系电话
+          <label>
+            <input name="dianhua" type="text" id="dianhua" th:value="${myoffices.data.phone}">
+          </label>
+        </p>
+        <p>电子邮件
+          <label>
+            <input name="dianziyoujian" type="text" id="dianziyoujian" th:value="${myoffices.data.email}">
+          </label>
+        </p>
+        <p>身高
+          <label>
+            <input name="shengao" type="text" id="shengao" size="8" th:value="${myoffices.data.height}">
+          </label>
+          公分血型
+          <label>
+            <select name="xuexing" id="xuexing">
+              <option value="A" >A </option>
+              <option value="B" >B</option>
+              <option value="AB" >AB </option>
+              <option value="O" >O </option>
+            </select>
+          </label>
+          婚姻状况
+          <label>
+            <select name="hunyin" id="hunyin">
+              <option value="已婚" >已婚 </option>
+              <option value="未婚" >未婚 </option>
+            </select>
+          </label>
+        </p>
+        <p>籍贯
+          <label>
+            <input name="jiguan" type="text" id="jiguan" th:value="${myoffices.data.nation}">
+          </label>
+        </p>
+        <p>出生地址
+          <label>
+            <input name="chushengdizhi" type="text" id="chushengdizhi" th:value="${myoffices.data.homeplace}">
+          </label>
+        </p>
+        <p>最高学历
+          <label>
+            <select name="xueli" id="xueli">
+              <option value="benke">本科</option>
+              <option value="shuoshi">硕士研究生</option>
+              <option value="boshi">博士研究生</option>
+              <option value="zhuanke">专科</option>
+              <option value="qita">其他</option>
+            </select>
+          </label>
+          最高学位
+          <label>
+            <select name="xuewei" id="xuewei">
+              <option value="xueshi">学士</option>
+              <option value="shuoshi">硕士</option>
+              <option value="boshi">博士</option>
+              <option value="qita">其他</option>
+            </select>
+          </label>
+        </p>
+        <p>毕业学院
+          <label>
+            <input name="xueyuan" type="text" id="xueyuan" th:value="${myoffices.data.graschool}">
+          </label>
+        </p>
+        <p>所学专业
+          <label>
+            <input name="zhuanye" type="text" id="zhuanye" th:value="${myoffices.data.speciality}">
+          </label>
+        </p>
+        <p>毕业日期
+          <label>
+            <input name="biyeriqi" type="text" id="biyeriqi" size="16" th:value="${#dates.format(myoffices.data.gradate,'yyyy-MM-dd')}">
+          </label>
+        </p>
+        <p class="STYLE13">
+          <label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--<input type="button" name="Submit" href="e_selectreslut" value="更新">-->
+          </label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <script></script>
+          <label></label>
+
+      </form>
+      </th>
+    </tr>
+  </table>
+<script></script>
+</body>
+</html>

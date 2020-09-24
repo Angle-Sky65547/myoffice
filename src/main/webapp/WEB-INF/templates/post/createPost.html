@@ -1,0 +1,84 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>部门管理</title>
+<link href="daohang.css" rel="stylesheet" type="text/css"/>
+<style>
+table tr td p{
+	color:#FF0000;
+}
+</style>
+	<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="../css/datepicker-style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("form").submit(function(){
+
+				//ajax新增部门请求
+				$.ajax({
+					url:"save",
+					type:"POST",
+					data:$("form").serialize(),
+					success:function(data){
+						if(data.success){
+							alert(data.message);
+							window.location.href="managerPost";
+
+						}else{
+							alert(data.message);
+						}
+					}
+				})
+				//阻止表单提交
+				return false;
+			})
+		});
+	</script>
+
+</head>
+
+<body>
+<p class="daohang">当前位置：
+<a href="#">首页</a><
+<a href="managerPost.html">岗位管理</a><
+<font>创建岗位</font><br/>
+</p>
+<form >
+<table>
+	<tr>
+		<td>编号</td>
+		<td><input type="text" id="id" name="id"></td><td><p>*（*为必填）</p></td>
+	</tr>
+	<tr>
+		<td>名称</td>
+		<td><input type="text" name="name" id="name"></td><td><p>*</p></td>
+	</tr>
+<tr>
+		<td>岗位类型</td>
+		<td>
+			<select id="type" name="type">
+				<option selected="selected" value=""></option>
+	            <option value="技术">技术</option>
+				<option value="营销">营销</option>
+				<option value="市场">市场</option>
+				<option value="管理" selected="selected">管理</option>
+			</select>		</td><td><p>*</p></td>
+	</tr>
+	
+	<tr>
+		<td>岗位编制</td>
+		<td><input id="number" name="number" type="text" value=""></td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" align="center">
+			<input type="submit" value="提交">
+			<input type="reset" value="重置">
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

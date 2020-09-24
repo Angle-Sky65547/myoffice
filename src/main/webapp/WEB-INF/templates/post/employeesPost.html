@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>岗位管理</title>
+	<link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+	<link href="../css/table.css" rel="stylesheet" type="text/css"/>
+	<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="../css/datepicker-style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui.js"></script>
+	<script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+</head>
+
+<body>
+<p class="daohang" >当前位置：
+<a href="#">首页</a><
+<a href="managerPost.html">岗位管理</a><
+<font>显示员工信息</font><br/>
+</p>
+<fieldset>
+<legend>员工信息</legend>
+<form>
+<table  cellspacing="0"class="tabs" width="1022">
+	<tr  align="center">
+		<th width="100">员工号</th>
+		<th width="150">姓名</th>
+		<th width="100">岗位</th>
+		<th width="120">入职日期</th>
+		<th width="120">参加工作日期</th>
+		<th width="200">用工形式</th>
+		<th width="100">人员来源</th>
+		<th width="200">最高学历</th>
+	</tr>
+	<tr align="center" th:each="empl:${myoffice3.data}">
+		<td th:text="${empl.id}">100010</td>
+		<td th:text="${empl.name}">张三</td>
+		<td th:text="${empl.stationname}">HR</td>
+		<td th:text="${#dates.format(empl.employdate,'yyyy-MM-dd')}">2009-11-23</td>
+		<td th:text="${#dates.format(empl.workdate,'yyyy-MM-dd')}">2009-11-23</td>
+		<td th:text="${empl.form}">正式员工</td>
+		<td th:text="${empl.source}">校园招聘</td>
+		<td th:text="${empl.eduback}">本科</td>
+	</tr>
+</table>
+</form>
+</fieldset>
+
+</body>
+</html>

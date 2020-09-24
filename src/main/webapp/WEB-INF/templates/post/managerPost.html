@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>岗位管理</title>
+	<link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+	<link href="../css/table.css" rel="stylesheet" type="text/css"/>
+	<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+	<link href="../css/datepicker-style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="../js/jquery-ui.js"></script>
+	<script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+<script language="javascript">
+
+//jquery准备就绪，也就是DOM加载完成后
+$(function(){
+	//编写jquery代码
+	//前端2中方案解决问题：使用alert对话框显示信息，使用浏览器代码调试功能（chrome,firefox）
+
+	$("#newStation").click(function(){
+
+		window.location.href="createPost";
+	})
+
+	//删除部门信息
+	$("#deleteStat").click(function(){
+
+		//生成id数组
+		var ids=[];
+		$("[name=chkSelect]:checked").each(function(index,chk){
+			//jquery机遇选择器的遍历，index索引，element元素，此元素是DOM对象，不是jquery对象，需要转化
+			ids.push($(chk).parent().next().text())
+		})
+
+
+		//确认删除,二次删除
+		if (!window.confirm("您选中的部门编号是："+ids)) {
+			return
+		}
+		if (!window.confirm("您真的想删除选中的部门信息吗?")) {
+			return
+		}
+
+
+		//使用ajax请求删除部门数据
+		$.ajax({
+			url:"delete",
+			type:"POST",
+			data:{"ids":ids},
+			success:function(data){
+				if(data.success){
+					alert(data.message);
+					window.location.href="managerPost";
+				}else{
+					alert(data.message);
+				}
+			}
+		})
+
+	})
+
+})
+
+</script>
+<script language="javascript" src="../js/selectall.js"></script>
+</head>
+
+<body>
+<p class="daohang">当前位置：
+<a href="#">首页</a><
+<font>岗位管理</font><br/>
+</p>
+<fieldset>
+<legend><font size="+1"><strong>岗位管理</strong></font><br/></legend>
+<form action="search" name="form1">
+	<table>
+		<tr>
+			<td>编号</td>
+			<td><input name="id" type="text"></td>
+			<td>名称</td>
+			<td><input name="name" type="text"></td>
+			<td>岗位类型</td>
+			<td>
+				<select name="type">
+					<option selected="selected" value=""></option>
+					<option value="管理">管理</option>
+					<option value="技术">技术</option>
+					<option value="市场">市场</option>
+					<option value="营销">营销</option>
+				</select>		
+			</td>
+			<td><input type="submit" value="查询" name="sss"></td>
+		</tr>
+	</table>
+</form>
+</fieldset>
+<fieldset>
+<legend>岗位信息</legend>
+<form name="form2">
+<table cellspacing="0" class="tabs" width="1022">
+	<tr>
+		<td align="left" colspan="6"><input type="button" value="新建岗位" id="newStation"></td>
+	</tr>
+	<tr align="center">
+	  <th width="125"><input type="checkbox" name="selectAll"></th>
+		<th width="154">编号</th>
+		<th width="174">名称</th>
+		<th width="214">类型</th>
+		<th width="142">岗位编制</th>
+		<th width="193">操作</th>
+	</tr>
+	<tr align="center" th:each="stat:${myoffice2.data}">
+		<td><input name="chkSelect" type="checkbox"></td>
+		<td th:text="${stat.id}">100010</td>
+		<td th:text="${stat.name}">管理</td>
+		<td th:text="${stat.type}">岗位</td>
+		<td th:text="${stat.number}">20</td>
+		
+		<td>
+			<a th:href="|updataPost?id=${stat.id}|">修改</a>
+			<a th:href="|employeesPost?id=${stat.id}|">岗位下员工查询</a>		</td>
+	</tr>
+	<!--<tr align="center">
+		<td><input type="checkbox"></td>
+		<td>100020</td>
+		<td>营销</td>
+		<td>岗位</td>
+		<td>20</td>
+		
+		<td>
+			<a href="updataPost.html">修改</a>
+			<a href="employeesPost.html">岗位下员工查询</a>		</td>
+	</tr>
+		<tr align="center">
+		<td><input type="checkbox"></td>
+		<td>100030</td>
+		<td>市场</td>
+		<td>岗位</td>
+		<td>20</td>
+		
+		<td>
+			<a href="updataPost.html">修改</a>
+			<a href="employeesPost.html">岗位下员工查询</a>		</td>
+	</tr>
+		<tr align="center">
+		<td><input type="checkbox"></td>
+		<td>101040</td>
+		<td>技术</td>
+		<td>岗位</td>
+		<td>15</td>
+		
+		<td>
+			<a href="updataPost.html">修改</a>
+			<a href="employeesPost.html">岗位下员工查询</a>		</td>
+	</tr>-->
+	<tr >
+	  <td colspan="3" align="left">
+	  <input type="button" value="全选" onClick="selectall();">|<input type="button" value="反选" onClick="opposite();">|<input type="button" value="全不选" onClick="selectf();">
+	  </td>
+	  <td colspan="4" align="right">
+	  <input type="button" value="删除选中的岗位" id="deleteStat">
+	  
+	  </td>
+    </tr>
+</table>
+</form>
+</fieldset>
+</body>
+</html>

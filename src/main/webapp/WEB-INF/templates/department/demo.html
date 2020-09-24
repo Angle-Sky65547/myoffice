@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>部门管理</title>
+    <link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/datepicker-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+    <script type="text/javascript" src="../js/jsrender.js"></script>
+
+    <script language="javascript">
+        // jQuery 准备就绪事件，也就是DOM加载完成后
+        $(function () {
+            // demo
+            $.ajax({
+                url: "demo_data",
+                type: "GET",
+                success: function (data) {
+                    $("#departments").html(
+                        $("#departmentsTemplate").render(data.data)
+                    )
+                }
+            })
+        })
+    </script>
+    <script language="javascript" src="../js/selectall.js"></script>
+</head>
+
+<body>
+<script id="departmentsTemplate" type="text/x-jsrender">
+		<tr align="center" >
+					<td><input  name="chkSelect"  type="checkbox"></td>
+					<td>{{:id}}</td>
+					<td>{{:name}}</td>
+					<td>{{:type}}</td>
+					<td>{{:telephone}}</td>
+					<td>{{:fax}}</td>
+					<td>{{:description}}</td>
+					<td>{{:predepartment}}</td>
+					<td>{{:date}}</td>
+					<td><a href="">修改</a> <a
+						href="employeesDepartment.html">查询该部门下的员工</a></td>
+				</tr>
+
+</script>
+<p class="daohang">当前位置：
+    <a href="#">首页</a><
+    <font>部门管理</font><br/>
+</p>
+
+<fieldset>
+    <legend>查询条件</legend>
+    <form action="search" name="form1">
+        <table>
+            <tr>
+                <td>部门编号</td>
+                <td><input name="id" type="text"></td>
+                <td>部门名称</td>
+                <td><input name="name" type="text"></td>
+                <td>类型</td>
+                <td>
+                    <select name="type">
+                        <option selected="selected" value=""></option>
+                        <option value="公司">公司</option>
+                        <option value="部门">部门</option>
+                        <option value="车间">车间</option>
+                    </select>
+                </td>
+                <td><input type="submit" value="查询" name="sss"></td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+<fieldset>
+    <legend>部门信息</legend>
+    <form name="form2">
+        <table width="1022" cellspacing="0" class="tabs">
+            <tr>
+                <td colspan="10" align="left"><input type="button" value="新建部门" id="newDept"></td>
+            </tr>
+            <tr align="center">
+                <td width="20"><input type="checkbox" name="selectAll"></td>
+                <th width="81">编号</th>
+                <th width="106">名称</th>
+                <th width="72">类型</th>
+                <th width="99">电话</th>
+                <th width="86">传真</th>
+                <th width="115">描述</th>
+                <th width="101">上级部门</th>
+                <th width="150">成立日期</th>
+                <th width="200">操作</th>
+            </tr>
+            <tbody id="departments"></tbody>
+
+            <tr>
+                <td colspan="6" align="left">
+                    <input type="button" value="全选" onClick="selectall();">|<input type="button" value="反选"
+                                                                                   onClick="opposite();">|<input
+                        type="button" value="全不选" onClick="selectf();">
+                </td>
+                <td colspan="4" align="right">
+                    <input type="button" value="删除选中的部门" id="deleteDept">
+                </td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+</body>
+</html>

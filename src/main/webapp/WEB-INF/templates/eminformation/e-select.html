@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>e-select</title>
+<link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+<link href="../css/table.css" rel="stylesheet" type="text/css"/>
+<link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="../css/datepicker-style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+
+
+</head>	
+<body>
+<table width="903" height="20%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <th height="76" align="left" scope="row">	<p class="daohang">当前位置：
+
+
+<a href="#">首页</a><
+<font>员工信息查询</font>
+</p></th>
+  </tr>
+  <tr valign="middle">
+    <th height="57" scope="row">
+      <form name="form1"  action="search_em">
+      员工编号
+      <label>
+      <input name="idcard" type="text" id="idcard">
+      </label>
+        <label>员工姓名
+        <input name="name" type="text" id="name">
+        </label>
+        <label>
+        员工所在部门
+
+        <input name="departmentname" type="text" id="departmentname">
+        <input type="submit" name="Submit" value="查询">
+        </label>
+    </form>   </th>
+  </tr><hr>
+  <tr align="center" valign="top">
+    <td height="185"><table width="896" cellspacing="0" cellpadding="0" class="tabs">
+      <tr >
+        <th width="84" height="23" align="center"  scope="row">用户编号</th>
+        <th width="166" align="center">用户姓名</th>
+        <th width="125" align="center">所在部门</th>
+        <th width="125" align="center">所属岗位</th>
+        <th width="125" align="center">是否在职业</th>
+        <th width="125" align="center">入职时间</th>
+        <th width="130" align="center">查询</th>
+      </tr>
+      <tr align="center" th:each="empl:${myoffice.data}">
+        <td th:text="${empl.idcard}" align="center" valign="middle" scope="row">ft10001</td>
+        <td th:text="${empl.name}" align="center" valign="middle">张三</td>
+        <td th:text="${empl.departmentid}" align="center" valign="middle">部门1</td>
+        <td th:text="${empl.stationname}" align="center" valign="middle">岗位1</td>
+        <td th:text="${empl.tag}" align="center" valign="middle">是</td>
+        <td th:text="${#dates.format(empl.employdate,'yyyy-MM-dd')}" align="center" valign="middle">1988/10/12</td>
+        <td align="center" valign="middle"><a th:href="|e_selectreslut?id=${empl.id}|">具体查询</a></td>
+      </tr>
+    </table> 
+	</td>    
+  </tr>
+
+</table>
+
+</body>
+</html>

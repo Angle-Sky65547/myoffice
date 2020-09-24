@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>部门管理</title>
+    <link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="date.js"></script>
+    <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/datepicker-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+			$("#date").datepicker({
+				//添加日期选择功能
+				numberOfMonths:1,//显示几个月
+				showButtonPanel:true,//是否显示按钮面板
+				dateFormat: 'yy-mm-dd',//日期格式
+				clearText:"清除",//清除日期的按钮名称
+				closeText:"关闭",//关闭选择框的按钮名称
+				yearSuffix: '年', //年的后缀
+				showMonthAfterYear:true,//是否把月放在年的后面
+				defaultDate:new Date(),//默认日期
+				minDate:'1900-1-1',//最小日期
+				maxDate:'2050-12-31',//最大日期
+				monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+				dayNames: ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'],
+				dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六'],
+				dayNamesMin: ['日','一','二','三','四','五','六'],
+				onSelect: function(selectedDate) {//选择日期后执行的操作
+					$("#date").val(selectedDate);
+				}
+			});
+			$("form").submit(function(){
+				//数据合法性验证
+
+				//ajax新增部门请求
+				$.ajax({
+					url:"save",
+					type:"POST",
+					data:$("form").serialize(),
+					success:function(data){
+						if(data.success){
+							//根据需求返回消息
+							// alert(data.message)
+							window.location.href="managerDepartments";
+						}else{
+							alert(data.message);
+						}
+					}
+				})
+				//阻止表单提交
+				return false;
+			})
+		});
+	</script>
+</head>
+
+<body>
+<p class="daohang">当前位置：
+    <a href="#">首页</a><
+    <a href="managerDepartments.html">部门管理</a><
+    <font>修改部门信息</font><br/>
+</p>
+<fieldset>
+    <legend>部门信息</legend>
+    <form action="managerDepartments.html">
+        <table>
+            <tr>
+                <td>编号</td>
+                <td><input id="id" name="id" type="text" th:value="${myoffices.data.id}" value="100010" readonly="readonly"></td>
+            </tr>
+            <tr>
+                <td>名称</td>
+                <td><input id="name" name="name" type="text" th:value="${myoffices.data.name}" value="人事部"></td>
+            </tr>
+            <tr>
+                <td>类型</td>
+                <td>
+                    <select id="type" name="type">
+                        <option selected="selected" th:selected="${myoffices.data.type}eq''" value=""></option>
+                        <option th:selected="${myoffices.data.type}eq'公司'" value="公司">公司</option>
+                        <option th:selected="${myoffices.data.type}eq'部门'" value="部门">部门</option>
+                    </select></td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td><input id="telephone" name="telephone" type="text" th:value="${myoffices.data.telephone}" value="024-12345678"></td>
+            </tr>
+            <tr>
+                <td>传真</td>
+                <td><input id="fax" name="fax" type="text" th:value="${myoffices.data.fax}"></td>
+            </tr>
+            <tr>
+                <td>描述</td>
+                <td><textarea id="description" name="description" th:text="${myoffices.data.description}"></textarea></td>
+            </tr>
+            <tr>
+                <td>上级部门</td>
+                <td>
+                    <select id="predepartment" name="predepartment">
+                        <option th:selected="${myoffices.data.predepartment}eq'沈阳分公司'"value="沈阳分公司">沈阳分公司</option>
+                        <option th:selected="${myoffices.data.predepartment}eq'工程部'"value="工程部">工程部</option>
+                        <option th:selected="${myoffices.data.predepartment}eq'华东区'"value="华东区">华东区</option>
+                        <option th:selected="${myoffices.data.predepartment}eq'财务部'"value="财务部">财务部</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>成立日期</td>
+                <td><input id="date" name="date" type="text" th:value="${#dates.format(myoffices.data.date,'yyyy-MM-dd')}" value="2004-8-24" readonly="readonly"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="修改">
+                    <input type="button" value="取消">
+                </td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+</body>
+</html>

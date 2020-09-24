@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>部门管理</title>
+    <link href="../css/daohang.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/table.css" rel="stylesheet" type="text/css"/>
+
+
+    <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/datepicker-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/datepicker-zh-CN.js"></script>
+
+    <script language="javascript">
+
+        //jquery准备就绪，也就是DOM加载完成后
+        $(function () {
+            //编写jquery代码
+            //前端2中方案解决问题：使用alert对话框显示信息，使用浏览器代码调试功能（chrome,firefox）
+
+            $("#newDept").click(function () {
+                window.location.href = "department/createDepartment";
+            })
+
+            //删除部门信息
+            $("#deleteDept").click(function () {
+
+                //生成id数组
+                var ids = [];
+                $("[name=chkSelect]:checked").each(function (index, chk) {
+                    //jquery机遇选择器的遍历，index索引，element元素，此元素是DOM对象，不是jquery对象，需要转化
+
+                    ids.push($(chk).parent().next().text())
+
+                })
+
+                //确认删除,二次删除
+                if (!window.confirm("您选中的部门编号是：" + ids)) {
+                    return
+                }
+                if (!window.confirm("您真的想删除选中的部门信息吗?")) {
+                    return
+                }
+                //使用ajax请求删除部门数据
+                $.ajax({
+                    url: "deletepro",
+                    type: 'POST',
+                    data: {"ids": ids},
+                    success: function (data) {
+                        if (data.success) {
+                            window.location.href = "user";
+                        } else {
+                            //显示错误信息
+                            alert(data.message);
+                        }
+                    }
+                })
+
+            })
+
+        })
+    </script>
+    <script language="javascript" src="../js/selectall.js"></script>
+</head>
+
+<body>
+<p class="daohang">当前位置：
+    <a href="../login">首页</a><
+    <font>员工信息</font><br/>
+</p>
+
+<fieldset>
+    <legend>查询条件</legend>
+    <form action="searchpro" name="form1">
+        <table>
+            <tr>
+                <td>员工编号</td>
+                <td><input name="id" type="text"></td>
+                <td>员工姓名</td>
+                <td><input name="name" type="text"></td>
+                <td>学历</td>
+                <td>
+                    <select name="eduback">
+                        <option selected="selected" value=""></option>
+                        <option value="本科">本科</option>
+                        <option value="高中及以下">高中及以下</option>
+                    </select>
+                </td>
+                <td><input type="submit" value="查询" name="sss"></td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+<fieldset>
+    <legend>部门信息</legend>
+    <form name="form2">
+        <table width="1022" cellspacing="0" class="tabs">
+            <tr>
+                <td colspan="10" align="left"></td>
+            </tr>
+            <tr align="center">
+                <td width="20"><input type="checkbox" name="selectAll"></td>
+                <th width="81">编号</th>
+                <th width="106">姓名</th>
+                <th width="72">来源</th>
+                <th width="99">是否已婚</th>
+                <th width="86">所在部门</th>
+                <th width="115">岗位</th>
+                <th width="101">学历</th>
+                <th width="150">入职日期</th>
+                <th width="200">操作</th>
+            </tr>
+            <tr align="center" th:each="dept:${myofficesu.data}">
+                <td><input name="chkSelect" type="checkbox"></td>
+                <td th:text="${dept.id}"></td>
+                <td th:text="${dept.name}"></td>
+                <td th:text="${dept.source}"></td>
+                <td th:text="${dept.status}"></td>
+                <td th:text="${dept.departmentname}"></td>
+                <td th:text="${dept.stationname}"></td>
+                <td th:text="${dept.eduback}"></td>
+                <td th:text="${#dates.format(dept.workdate,'yyyy-MM-dd')}"></td>
+                <td>
+                    <a th:href="|updateUser?id=${dept.id}|">修改</a>
+            </tr>
+            <tr>
+                <td colspan="6" align="left">
+                    <input type="button" value="全选" onClick="selectall();">|<input type="button" value="反选"
+                    onClick="opposite();">|<input type="button" value="全不选" onClick="selectf();">
+                </td>
+                <td colspan="4" align="right">
+                    <input type="button" value="开除选中的员工" id="deleteDept">
+                </td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+</body>
+</html>
